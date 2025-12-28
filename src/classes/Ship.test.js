@@ -1,9 +1,9 @@
-import test from "node:test";
-import { Ship } from "../src/Ship";
+import { Ship } from "./Ship.js";
 
 describe("Ship Class Tests with standard length", () => {
+  let ship;
   beforeEach(() => {
-    const ship = new Ship(3);
+    ship = new Ship(3);
   });
   test("Ship initializes with correct length and hits", () => {
     expect(ship.length).toBe(3);
