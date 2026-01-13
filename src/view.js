@@ -1,4 +1,5 @@
-import { startNewGame } from "./index.js";
+import { startNewGame, playerShot } from "./index.js";
+import splash from "./images/splash.svg";
 
 export function startScreen() {
   const body = document.querySelector("body");
@@ -26,7 +27,60 @@ export function startScreen() {
     form.classList.toggle("active");
     gameDiv.classList.toggle("active");
     startNewGame(player1Name, Player2Name);
+    setupInitialBoards();
   });
 
   body.appendChild(form);
+}
+
+function setupInitialBoards() {
+  const board1Container = document.getElementById("board1-container");
+  const board2Container = document.getElementById("board2-container");
+  board2Container.classList.toggle("disabled");
+  addClickables(board2Container, handleClick);
+}
+export function renderBoard(attackedBoard) {
+  const waitingBoardContainer = document.querySelector(
+    ".board-container.waiting"
+  );
+  console.log(attackedBoard.missedAttacks);
+  for (const miss of attackedBoard.missedAttacks) {
+    const row = miss[0];
+    const col = miss[1];
+    const button = waitingBoardContainer.querySelector(
+      `.boardSquare[data-row="${row}"][data-col="${col}"]`
+    );
+    console.log(miss);
+    if (button.querySelector("img")) continue;
+    const img = document.createElement("img");
+    img.src = splash;
+    img.alt = "Miss";
+    img.classList.add("miss-icon");
+    img.width = 30;
+    img.height = 30;
+    button.appendChild(img);
+  }
+  const activeBoardContainer = document.querySelector(
+    ".board-container:not(.waiting)"
+  );
+  activeBoardContainer.classList.toggle("waiting");
+  waitingBoardContainer.classList.toggle("waiting");
+}
+function addClickables(boardContainer, handleClick) {
+  const buttons = boardContainer.querySelectorAll(".boardSquare");
+  buttons.forEach((button) => {
+    button.addEventListener("click", handleClick);
+  });
+}
+
+function handleClick(event) {
+  const row = parseInt(event.target.getAttribute("data-row"));
+  const col = parseInt(event.target.getAttribute("data-col"));
+  console.log(`Clicked on row ${row}, col ${col}`);
+  console.log(event.target);
+  event.target.classList.toggle("disabled", true);
+  if (!event.target.textContent == "") {
+    return;
+  }
+  playerShot(row, col);
 }

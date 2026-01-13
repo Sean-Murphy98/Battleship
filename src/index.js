@@ -2,6 +2,7 @@ import "./style.css";
 import { Player } from "./classes/Player.js";
 import { Gameboard } from "./classes/Gameboard.js";
 import { Ship } from "./classes/Ship.js";
+import { GameModel } from "./classes/GameModel.js";
 import * as DOM from "./view.js";
 
 function createPlayer(name, isComputer = false) {
@@ -23,9 +24,26 @@ export function startNewGame(player1Name, player2Name) {
   player2.gameboard.placeShip(new Ship(3), 6, 6, "vertical");
   player2.gameboard.placeShip(new Ship(3), 0, 5, "horizontal");
   player2.gameboard.placeShip(new Ship(2), 9, 7, "horizontal");
-  //DOM.setupBoards(player1, player2);
+  Game.setPlayers(player1, player2);
 }
-/*
+
+export function playerShot(row, col) {
+  console.log(`Player shoots at row ${row}, col ${col}`);
+  takeTurn(Game.currentPlayer, Game.getOpponent(), row, col);
+  if (Game.getOpponent().gameboard.allShipsSunk()) {
+    console.log(`${Game.currentPlayer.name} wins!`);
+    return;
+  }
+  Game.switchPlayer();
+  if (Game.currentPlayer.isComputer) {
+    takeTurn(Game.currentPlayer, Game.getOpponent());
+    if (Game.getOpponent().gameboard.allShipsSunk()) {
+      console.log(`${Game.currentPlayer.name} wins!`);
+      return;
+    }
+    Game.switchPlayer();
+  }
+}
 function takeTurn(player, opponent, row, col) {
   if (player.isComputer) {
     let attackCoords;
@@ -35,7 +53,7 @@ function takeTurn(player, opponent, row, col) {
         Math.floor(Math.random() * 10),
       ];
     } while (
-      opponent.gameboard.receivedAttacks.some(
+      opponent.gameboard.missedAttacks.some(
         (attack) =>
           attack[0] === attackCoords[0] && attack[1] === attackCoords[1]
       )
@@ -44,14 +62,14 @@ function takeTurn(player, opponent, row, col) {
   } else {
     opponent.gameboard.receiveAttack(row, col);
   }
+  DOM.renderBoard(opponent.gameboard);
 }
 function resetGame() {
-  DOM.clearBoard();
   startNewGame();
 }
-*/
 function init() {
   DOM.startScreen();
   //DOM.setupResetButton(resetGame);
 }
+const Game = new GameModel();
 init();

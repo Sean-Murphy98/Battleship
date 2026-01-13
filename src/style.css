@@ -54,6 +54,7 @@ body {
 
 #reset-button {
   margin-left: auto;
+  margin-right: auto;
 }
 
 #bothBoards {
@@ -83,4 +84,9 @@ body {
   border-radius: 6px;
   height: 100%;
   background-color: white;
+}
+
+.board-container:not(.disabled) .row .boardSquare:not(.disabled):empty:hover {
+  background-color: #d3d3d3;
+  cursor: pointer;
 }
