@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Battleship</title>
+  </head>
+  <body>
+    <div id="game-container">
+      <h1 id="title">Battleships</h1>
+      <div id="Scoreboard">
+        <div id="player1-score">Player 1 : 0</div>
+        <button id="reset-button">Reset Game</button>
+        <div id="player2-score">Player 2 : 0</div>
+      </div>
+      <div id="bothBoards">
+        <div id="board1-container" class="board-container">
+          <div class="row">
+            <button data-row="9" data-col="0" class="boardSquare"></button>
+            <button data-row="9" data-col="1" class="boardSquare"></button>
+            <button data-row="9" data-col="2" class="boardSquare"></button>
+            <button data-row="9" data-col="3" class="boardSquare"></button>
+            <button data-row="9" data-col="4" class="boardSquare"></button>
+            <button data-row="9" data-col="5" class="boardSquare"></button>
+            <button data-row="9" data-col="6" class="boardSquare"></button>
+            <button data-row="9" data-col="7" class="boardSquare"></button>
+            <button data-row="9" data-col="8" class="boardSquare"></button>
+            <button data-row="9" data-col="9" class="boardSquare"></button>
+          </div>
+          <div class="row">
+            <button data-row="8" data-col="0" class="boardSquare"></button>
+            <button data-row="8" data-col="1" class="boardSquare"></button>
+            <button data-row="8" data-col="2" class="boardSquare"></button>
+            <button data-row="8" data-col="3" class="boardSquare"></button>
+            <button data-row="8" data-col="4" class="boardSquare"></button>
+            <button data-row="8" data-col="5" class="boardSquare"></button>
+            <button data-row="8" data-col="6" class="boardSquare"></button>
+            <button data-row="8" data-col="7" class="boardSquare"></button>
+            <button data-row="8" data-col="8" class="boardSquare"></button>
+            <button data-row="8" data-col="9" class="boardSquare"></button>
+          </div>
+          <div class="row">
+            <button data-row="7" data-col="0" class="boardSquare"></button>
+            <button data-row="7" data-col="1" class="boardSquare"></button>
+            <button data-row="7" data-col="2" class="boardSquare"></button>
+            <button data-row="7" data-col="3" class="boardSquare"></button>
+            <button data-row="7" data-col="4" class="boardSquare"></button>
+            <button data-row="7" data-col="5" class="boardSquare"></button>
+            <button data-row="7" data-col="6" class="boardSquare"></button>
+            <button data-row="7" data-col="7" class="boardSquare"></button>
+            <button data-row="7" data-col="8" class="boardSquare"></button>
+            <button data-row="7" data-col="9" class="boardSquare"></button>
+          </div>
+          <div class="row">
+            <button data-row="6" data-col="0" class="boardSquare"></button>
+            <button data-row="6" data-col="1" class="boardSquare"></button>
+            <button data-row="6" data-col="2" class="boardSquare"></button>
+            <button data-row="6" data-col="3" class="boardSquare"></button>
+            <button data-row="6" data-col="4" class="boardSquare"></button>
+            <button data-row="6" data-col="5" class="boardSquare"></button>
+            <button data-row="6" data-col="6" class="boardSquare"></button>
+            <button data-row="6" data-col="7" class="boardSquare"></button>
+            <button data-row="6" data-col="8" class="boardSquare"></button>
+            <button data-row="6" data-col="9" class="boardSquare"></button>
+          </div>
+          <div class="row">
+            <button data-row="5" data-col="0" class="boardSquare"></button>
+            <button data-row="5" data-col="1" class="boardSquare"></button>
+            <button data-row="5" data-col="2" class="boardSquare"></button>
+            <button data-row="5" data-col="3" class="boardSquare"></button>
+            <button data-row="5" data-col="4" class="boardSquare"></button>
+            <button data-row="5" data-col="5" class="boardSquare"></button>
+            <button data-row="5" data-col="6" class="boardSquare"></button>
+            <button data-row="5" data-col="7" class="boardSquare"></button>
+            <button data-row="5" data-col="8" class="boardSquare"></button>
+            <button data-row="5" data-col="9" class="boardSquare"></button>
+          </div>
+          <div class="row">
+            <button data-row="4" data-col="0" class="boardSquare"></button>
+            <button data-row="4" data-col="1" class="boardSquare"></button>
+            <button data-row="4" data-col="2" class="boardSquare"></button>
+            <button data-row="4" data-col="3" class="boardSquare"></button>
+            <button data-row="4" data-col="4" class="boardSquare"></button>
+            <button data-row="4" data-col="5" class="boardSquare"></button>
+            <button data-row="4" data-col="6" class="boardSquare"></button>
+            <button data-row="4" data-col="7" class="boardSquare"></button>
+            <button data-row="4" data-col="8" class="boardSquare"></button>
+            <button data-row="4" data-col="9" class="boardSquare"></button>
+          </div>
+          <div class="row">
+            <button data-row="3" data-col="0" class="boardSquare"></button>
+            <button data-row="3" data-col="1" class="boardSquare"></button>
+            <button data-row="3" data-col="2" class="boardSquare"></button>
+            <button data-row="3" data-col="3" class="boardSquare"></button>
+            <button data-row="3" data-col="4" class="boardSquare"></button>
+            <button data-row="3" data-col="5" class="boardSquare"></button>
+            <button data-row="3" data-col="6" class="boardSquare"></button>
+            <button data-row="3" data-col="7" class="boardSquare"></button>
+            <button data-row="3" data-col="8" class="boardSquare"></button>
+            <button data-row="3" data-col="9" class="boardSquare"></button>
+          </div>
+          <div class="row">
+            <button data-row="2" data-col="0" class="boardSquare"></button>
+            <button data-row="2" data-col="1" class="boardSquare"></button>
+            <button data-row="2" data-col="2" class="boardSquare"></button>
+            <button data-row="2" data-col="3" class="boardSquare"></button>
+            <button data-row="2" data-col="4" class="boardSquare"></button>
+            <button data-row="2" data-col="5" class="boardSquare"></button>
+            <button data-row="2" data-col="6" class="boardSquare"></button>
+            <button data-row="2" data-col="7" class="boardSquare"></button>
+            <button data-row="2" data-col="8" class="boardSquare"></button>
+            <button data-row="2" data-col="9" class="boardSquare"></button>
+          </div>
+          <div class="row">
+            <button data-row="1" data-col="0" class="boardSquare"></button>
+            <button data-row="1" data-col="1" class="boardSquare"></button>
+            <button data-row="1" data-col="2" class="boardSquare"></button>
+            <button data-row="1" data-col="3" class="boardSquare"></button>
+            <button data-row="1" data-col="4" class="boardSquare"></button>
+            <button data-row="1" data-col="5" class="boardSquare"></button>
+            <button data-row="1" data-col="6" class="boardSquare"></button>
+            <button data-row="1" data-col="7" class="boardSquare"></button>
+            <button data-row="1" data-col="8" class="boardSquare"></button>
+            <button data-row="1" data-col="9" class="boardSquare"></button>
+          </div>
+          <div class="row">
+            <button data-row="0" data-col="0" class="boardSquare"></button>
+            <button data-row="0" data-col="1" class="boardSquare"></button>
+            <button data-row="0" data-col="2" class="boardSquare"></button>
+            <button data-row="0" data-col="3" class="boardSquare"></button>
+            <button data-row="0" data-col="4" class="boardSquare"></button>
+            <button data-row="0" data-col="5" class="boardSquare"></button>
+            <button data-row="0" data-col="6" class="boardSquare"></button>
+            <button data-row="0" data-col="7" class="boardSquare"></button>
+            <button data-row="0" data-col="8" class="boardSquare"></button>
+            <button data-row="0" data-col="9" class="boardSquare"></button>
+          </div>
+        </div>
+        <div id="board2-container" class="board-container">
+          <div class="row">
+            <button data-row="9" data-col="0" class="boardSquare"></button>
+            <button data-row="9" data-col="1" class="boardSquare"></button>
+            <button data-row="9" data-col="2" class="boardSquare"></button>
+            <button data-row="9" data-col="3" class="boardSquare"></button>
+            <button data-row="9" data-col="4" class="boardSquare"></button>
+            <button data-row="9" data-col="5" class="boardSquare"></button>
+            <button data-row="9" data-col="6" class="boardSquare"></button>
+            <button data-row="9" data-col="7" class="boardSquare"></button>
+            <button data-row="9" data-col="8" class="boardSquare"></button>
+            <button data-row="9" data-col="9" class="boardSquare"></button>
+          </div>
+          <div class="row">
+            <button data-row="8" data-col="0" class="boardSquare"></button>
+            <button data-row="8" data-col="1" class="boardSquare"></button>
+            <button data-row="8" data-col="2" class="boardSquare"></button>
+            <button data-row="8" data-col="3" class="boardSquare"></button>
+            <button data-row="8" data-col="4" class="boardSquare"></button>
+            <button data-row="8" data-col="5" class="boardSquare"></button>
+            <button data-row="8" data-col="6" class="boardSquare"></button>
+            <button data-row="8" data-col="7" class="boardSquare"></button>
+            <button data-row="8" data-col="8" class="boardSquare"></button>
+            <button data-row="8" data-col="9" class="boardSquare"></button>
+          </div>
+          <div class="row">
+            <button data-row="7" data-col="0" class="boardSquare"></button>
+            <button data-row="7" data-col="1" class="boardSquare"></button>
+            <button data-row="7" data-col="2" class="boardSquare"></button>
+            <button data-row="7" data-col="3" class="boardSquare"></button>
+            <button data-row="7" data-col="4" class="boardSquare"></button>
+            <button data-row="7" data-col="5" class="boardSquare"></button>
+            <button data-row="7" data-col="6" class="boardSquare"></button>
+            <button data-row="7" data-col="7" class="boardSquare"></button>
+            <button data-row="7" data-col="8" class="boardSquare"></button>
+            <button data-row="7" data-col="9" class="boardSquare"></button>
+          </div>
+          <div class="row">
+            <button data-row="6" data-col="0" class="boardSquare"></button>
+            <button data-row="6" data-col="1" class="boardSquare"></button>
+            <button data-row="6" data-col="2" class="boardSquare"></button>
+            <button data-row="6" data-col="3" class="boardSquare"></button>
+            <button data-row="6" data-col="4" class="boardSquare"></button>
+            <button data-row="6" data-col="5" class="boardSquare"></button>
+            <button data-row="6" data-col="6" class="boardSquare"></button>
+            <button data-row="6" data-col="7" class="boardSquare"></button>
+            <button data-row="6" data-col="8" class="boardSquare"></button>
+            <button data-row="6" data-col="9" class="boardSquare"></button>
+          </div>
+          <div class="row">
+            <button data-row="5" data-col="0" class="boardSquare"></button>
+            <button data-row="5" data-col="1" class="boardSquare"></button>
+            <button data-row="5" data-col="2" class="boardSquare"></button>
+            <button data-row="5" data-col="3" class="boardSquare"></button>
+            <button data-row="5" data-col="4" class="boardSquare"></button>
+            <button data-row="5" data-col="5" class="boardSquare"></button>
+            <button data-row="5" data-col="6" class="boardSquare"></button>
+            <button data-row="5" data-col="7" class="boardSquare"></button>
+            <button data-row="5" data-col="8" class="boardSquare"></button>
+            <button data-row="5" data-col="9" class="boardSquare"></button>
+          </div>
+          <div class="row">
+            <button data-row="4" data-col="0" class="boardSquare"></button>
+            <button data-row="4" data-col="1" class="boardSquare"></button>
+            <button data-row="4" data-col="2" class="boardSquare"></button>
+            <button data-row="4" data-col="3" class="boardSquare"></button>
+            <button data-row="4" data-col="4" class="boardSquare"></button>
+            <button data-row="4" data-col="5" class="boardSquare"></button>
+            <button data-row="4" data-col="6" class="boardSquare"></button>
+            <button data-row="4" data-col="7" class="boardSquare"></button>
+            <button data-row="4" data-col="8" class="boardSquare"></button>
+            <button data-row="4" data-col="9" class="boardSquare"></button>
+          </div>
+          <div class="row">
+            <button data-row="3" data-col="0" class="boardSquare"></button>
+            <button data-row="3" data-col="1" class="boardSquare"></button>
+            <button data-row="3" data-col="2" class="boardSquare"></button>
+            <button data-row="3" data-col="3" class="boardSquare"></button>
+            <button data-row="3" data-col="4" class="boardSquare"></button>
+            <button data-row="3" data-col="5" class="boardSquare"></button>
+            <button data-row="3" data-col="6" class="boardSquare"></button>
+            <button data-row="3" data-col="7" class="boardSquare"></button>
+            <button data-row="3" data-col="8" class="boardSquare"></button>
+            <button data-row="3" data-col="9" class="boardSquare"></button>
+          </div>
+          <div class="row">
+            <button data-row="2" data-col="0" class="boardSquare"></button>
+            <button data-row="2" data-col="1" class="boardSquare"></button>
+            <button data-row="2" data-col="2" class="boardSquare"></button>
+            <button data-row="2" data-col="3" class="boardSquare"></button>
+            <button data-row="2" data-col="4" class="boardSquare"></button>
+            <button data-row="2" data-col="5" class="boardSquare"></button>
+            <button data-row="2" data-col="6" class="boardSquare"></button>
+            <button data-row="2" data-col="7" class="boardSquare"></button>
+            <button data-row="2" data-col="8" class="boardSquare"></button>
+            <button data-row="2" data-col="9" class="boardSquare"></button>
+          </div>
+          <div class="row">
+            <button data-row="1" data-col="0" class="boardSquare"></button>
+            <button data-row="1" data-col="1" class="boardSquare"></button>
+            <button data-row="1" data-col="2" class="boardSquare"></button>
+            <button data-row="1" data-col="3" class="boardSquare"></button>
+            <button data-row="1" data-col="4" class="boardSquare"></button>
+            <button data-row="1" data-col="5" class="boardSquare"></button>
+            <button data-row="1" data-col="6" class="boardSquare"></button>
+            <button data-row="1" data-col="7" class="boardSquare"></button>
+            <button data-row="1" data-col="8" class="boardSquare"></button>
+            <button data-row="1" data-col="9" class="boardSquare"></button>
+          </div>
+          <div class="row">
+            <button data-row="0" data-col="0" class="boardSquare"></button>
+            <button data-row="0" data-col="1" class="boardSquare"></button>
+            <button data-row="0" data-col="2" class="boardSquare"></button>
+            <button data-row="0" data-col="3" class="boardSquare"></button>
+            <button data-row="0" data-col="4" class="boardSquare"></button>
+            <button data-row="0" data-col="5" class="boardSquare"></button>
+            <button data-row="0" data-col="6" class="boardSquare"></button>
+            <button data-row="0" data-col="7" class="boardSquare"></button>
+            <button data-row="0" data-col="8" class="boardSquare"></button>
+            <button data-row="0" data-col="9" class="boardSquare"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
