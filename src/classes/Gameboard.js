@@ -33,8 +33,6 @@ export class Gameboard {
     const cell = this.grid[row][col];
     if (cell === null) {
       this.missedAttacks.push([row, col]);
-      console.log("Missed attack at", row, col);
-      console.log(this.missedAttacks);
       return false;
     }
     cell.hit();

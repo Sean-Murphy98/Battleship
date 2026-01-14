@@ -1,5 +1,6 @@
 import { startNewGame, playerShot } from "./index.js";
-import splash from "./images/splash.svg";
+import splash from "./images/splash.png";
+import kaboom from "./images/kaboom.png";
 
 export function startScreen() {
   const body = document.querySelector("body");
@@ -39,25 +40,23 @@ function setupInitialBoards() {
   board2Container.classList.toggle("disabled");
   addClickables(board2Container, handleClick);
 }
-export function renderBoard(attackedBoard) {
+export function renderBoard(attackedBoard, result) {
   const waitingBoardContainer = document.querySelector(
     ".board-container.waiting"
   );
-  console.log(attackedBoard.missedAttacks);
   for (const miss of attackedBoard.missedAttacks) {
     const row = miss[0];
     const col = miss[1];
     const button = waitingBoardContainer.querySelector(
       `.boardSquare[data-row="${row}"][data-col="${col}"]`
     );
-    console.log(miss);
     if (button.querySelector("img")) continue;
     const img = document.createElement("img");
     img.src = splash;
     img.alt = "Miss";
     img.classList.add("miss-icon");
-    img.width = 30;
-    img.height = 30;
+    img.width = 60;
+    img.height = 60;
     button.appendChild(img);
   }
   const activeBoardContainer = document.querySelector(
@@ -66,21 +65,44 @@ export function renderBoard(attackedBoard) {
   activeBoardContainer.classList.toggle("waiting");
   waitingBoardContainer.classList.toggle("waiting");
 }
+
+export function renderHit(row, col) {
+  const boardContainer = document.querySelector(".board-container.waiting");
+  const button = boardContainer.querySelector(
+    `.boardSquare[data-row="${row}"][data-col="${col}"]`
+  );
+  if (button.querySelector("img")) return;
+  const img = document.createElement("img");
+  img.src = kaboom;
+  img.alt = "Hit";
+  img.classList.add("hit-icon");
+  img.width = 60;
+  img.height = 60;
+  button.appendChild(img);
+}
+
 function addClickables(boardContainer, handleClick) {
   const buttons = boardContainer.querySelectorAll(".boardSquare");
   buttons.forEach((button) => {
-    button.addEventListener("click", handleClick);
+    button.addEventListener("click", handleClick, true);
   });
 }
 
 function handleClick(event) {
+  console.log(
+    !event.target.parentElement.parentElement.classList.contains("waiting")
+  );
   const row = parseInt(event.target.getAttribute("data-row"));
   const col = parseInt(event.target.getAttribute("data-col"));
-  console.log(`Clicked on row ${row}, col ${col}`);
-  console.log(event.target);
-  event.target.classList.toggle("disabled", true);
-  if (!event.target.textContent == "") {
+  if (
+    event.target.tagName !== "BUTTON" ||
+    event.target.classList.contains("disabled")
+  ) {
     return;
   }
+  if (!event.target.parentElement.parentElement.classList.contains("waiting")) {
+    return;
+  }
+  event.target.classList.toggle("disabled", true);
   playerShot(row, col);
 }

@@ -86,7 +86,9 @@ body {
   background-color: white;
 }
 
-.board-container:not(.disabled) .row .boardSquare:not(.disabled):empty:hover {
+.board-container.waiting:not(.disabled)
+  .row
+  .boardSquare:not(.disabled):empty:hover {
   background-color: #d3d3d3;
   cursor: pointer;
 }

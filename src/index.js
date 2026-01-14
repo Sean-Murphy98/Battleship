@@ -28,23 +28,12 @@ export function startNewGame(player1Name, player2Name) {
 }
 
 export function playerShot(row, col) {
-  console.log(`Player shoots at row ${row}, col ${col}`);
-  takeTurn(Game.currentPlayer, Game.getOpponent(), row, col);
-  if (Game.getOpponent().gameboard.allShipsSunk()) {
-    console.log(`${Game.currentPlayer.name} wins!`);
-    return;
-  }
-  Game.switchPlayer();
-  if (Game.currentPlayer.isComputer) {
-    takeTurn(Game.currentPlayer, Game.getOpponent());
-    if (Game.getOpponent().gameboard.allShipsSunk()) {
-      console.log(`${Game.currentPlayer.name} wins!`);
-      return;
-    }
-    Game.switchPlayer();
-  }
+  takeTurn(row, col);
 }
-function takeTurn(player, opponent, row, col) {
+function takeTurn(row, col) {
+  const player = Game.getActivePlayer();
+  const opponent = Game.getOpponent();
+  console.log(`${player.name}'s turn`);
   if (player.isComputer) {
     let attackCoords;
     do {
@@ -58,9 +47,25 @@ function takeTurn(player, opponent, row, col) {
           attack[0] === attackCoords[0] && attack[1] === attackCoords[1]
       )
     );
-    opponent.gameboard.receiveAttack(attackCoords[0], attackCoords[1]);
+    if (opponent.gameboard.receiveAttack(attackCoords[0], attackCoords[1])) {
+      DOM.renderHit(attackCoords[0], attackCoords[1]);
+    }
+    if (Game.getOpponent().gameboard.allShipsSunk()) {
+      console.log(`${Game.currentPlayer.name} wins!`);
+      return;
+    }
+    Game.switchPlayer();
   } else {
-    opponent.gameboard.receiveAttack(row, col);
+    if (opponent.gameboard.receiveAttack(row, col)) {
+      DOM.renderHit(row, col);
+    }
+    if (Game.getOpponent().gameboard.allShipsSunk()) {
+      console.log(`${Game.currentPlayer.name} wins!`);
+      return;
+    }
+    Game.switchPlayer();
+    console.log("Computer is thinking...");
+    setTimeout(takeTurn, 1000);
   }
   DOM.renderBoard(opponent.gameboard);
 }
