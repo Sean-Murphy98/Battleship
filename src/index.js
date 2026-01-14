@@ -4,6 +4,7 @@ import { Gameboard } from "./classes/Gameboard.js";
 import { Ship } from "./classes/Ship.js";
 import { GameModel } from "./classes/GameModel.js";
 import * as DOM from "./view.js";
+import { randomizeShips } from "./computerShipPlacer.js";
 
 function createPlayer(name, isComputer = false) {
   const gameboard = new Gameboard();
@@ -19,16 +20,13 @@ export function startNewGame(player1Name, player2Name) {
   player1.gameboard.placeShip(new Ship(3), 5, 5, "horizontal");
   player1.gameboard.placeShip(new Ship(3), 7, 3, "vertical");
   player1.gameboard.placeShip(new Ship(2), 9, 0, "horizontal");
-  player2.gameboard.placeShip(new Ship(5), 1, 1, "vertical");
-  player2.gameboard.placeShip(new Ship(4), 3, 3, "horizontal");
-  player2.gameboard.placeShip(new Ship(3), 6, 6, "vertical");
-  player2.gameboard.placeShip(new Ship(3), 0, 5, "horizontal");
-  player2.gameboard.placeShip(new Ship(2), 9, 7, "horizontal");
+  randomizeShips(player2.gameboard);
   Game.setPlayers(player1, player2);
+  return [player1, player2];
 }
 
 export function playerShot(row, col) {
-  takeTurn(row, col);
+  return takeTurn(row, col);
 }
 function takeTurn(row, col) {
   const player = Game.getActivePlayer();
@@ -52,6 +50,7 @@ function takeTurn(row, col) {
     }
     if (Game.getOpponent().gameboard.allShipsSunk()) {
       console.log(`${Game.currentPlayer.name} wins!`);
+      DOM.renderWin(player.name);
       return;
     }
     Game.switchPlayer();
@@ -61,6 +60,7 @@ function takeTurn(row, col) {
     }
     if (Game.getOpponent().gameboard.allShipsSunk()) {
       console.log(`${Game.currentPlayer.name} wins!`);
+      DOM.renderWin(player.name);
       return;
     }
     Game.switchPlayer();
@@ -68,9 +68,6 @@ function takeTurn(row, col) {
     setTimeout(takeTurn, 1000);
   }
   DOM.renderBoard(opponent.gameboard);
-}
-function resetGame() {
-  startNewGame();
 }
 function init() {
   DOM.startScreen();

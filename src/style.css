@@ -86,6 +86,10 @@ body {
   background-color: white;
 }
 
+.boardSquare.ship {
+  background-color: #808080;
+}
+
 .board-container.waiting:not(.disabled)
   .row
   .boardSquare:not(.disabled):empty:hover {

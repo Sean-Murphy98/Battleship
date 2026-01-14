@@ -27,19 +27,36 @@ export function startScreen() {
     const gameDiv = document.getElementById("game-container");
     form.classList.toggle("active");
     gameDiv.classList.toggle("active");
-    startNewGame(player1Name, Player2Name);
-    setupInitialBoards();
+    const players = startNewGame(player1Name, Player2Name);
+    setupInitialBoards(players[0].gameboard, players[1].gameboard);
+    setupResetButton(player1Name, Player2Name);
   });
 
   body.appendChild(form);
 }
 
-function setupInitialBoards() {
+function setupInitialBoards(player1Board, player2Board) {
   const board1Container = document.getElementById("board1-container");
   const board2Container = document.getElementById("board2-container");
   board2Container.classList.toggle("disabled");
   addClickables(board2Container, handleClick);
+  renderShips(board1Container, player1Board);
 }
+
+function renderShips(boardContainer, board) {
+  for (let row = 0; row < 10; row++) {
+    for (let col = 0; col < 10; col++) {
+      const cell = board.grid[row][col];
+      if (cell !== null) {
+        const button = boardContainer.querySelector(
+          `.boardSquare[data-row="${row}"][data-col="${col}"]`
+        );
+        button.classList.add("ship");
+      }
+    }
+  }
+}
+
 export function renderBoard(attackedBoard, result) {
   const waitingBoardContainer = document.querySelector(
     ".board-container.waiting"
@@ -81,10 +98,22 @@ export function renderHit(row, col) {
   button.appendChild(img);
 }
 
+function setupResetButton(player1Name, player2Name) {
+  const rstButton = document.getElementById("reset-button");
+  rstButton.addEventListener("click", () => {
+    const players = startNewGame(player1Name, player2Name);
+    resetBoardContainers();
+    const board1Container = document.getElementById("board1-container");
+    const board2Container = document.getElementById("board2-container");
+    board2Container.classList.toggle("disabled", false);
+    renderShips(board1Container, players[0].gameboard);
+  });
+}
+
 function addClickables(boardContainer, handleClick) {
   const buttons = boardContainer.querySelectorAll(".boardSquare");
   buttons.forEach((button) => {
-    button.addEventListener("click", handleClick, true);
+    button.addEventListener("click", handleClick, false);
   });
 }
 
@@ -105,4 +134,37 @@ function handleClick(event) {
   }
   event.target.classList.toggle("disabled", true);
   playerShot(row, col);
+}
+
+function resetBoardContainers() {
+  const boardContainers = document.querySelectorAll(".board-container");
+  boardContainers.forEach((container) => {
+    for (let row = 0; row < 10; row++) {
+      for (let col = 0; col < 10; col++) {
+        const button = container.querySelector(
+          `.boardSquare[data-row="${row}"][data-col="${col}"]`
+        );
+        button.className = "boardSquare";
+        while (button.firstChild) {
+          button.removeChild(button.firstChild);
+        }
+      }
+    }
+  });
+}
+
+export function renderWin(winnerName) {
+  const body = document.querySelector("body");
+  const winDiv = document.createElement("div");
+  winDiv.id = "win-screen";
+  const winMessage = document.createElement("h2");
+  winMessage.textContent = `${winnerName} Wins!`;
+  const rstButton = document.getElementById("reset-button");
+  rstButton.textContent = "Play Again";
+  const boardContainers = document.querySelectorAll(".board-container");
+  boardContainers.forEach((container) => {
+    container.classList.toggle("disabled", true);
+  });
+  winDiv.appendChild(winMessage);
+  body.appendChild(winDiv);
 }
