@@ -30,7 +30,6 @@ export function startScreen() {
     const players = startNewGame(player1Name, Player2Name);
     setupInitialBoards(players[0].gameboard, players[1].gameboard);
     setupResetButton(player1Name, Player2Name);
-    renderWin("Sean");
   });
 
   body.appendChild(form);
