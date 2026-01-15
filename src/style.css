@@ -96,3 +96,33 @@ body {
   background-color: #d3d3d3;
   cursor: pointer;
 }
+
+#win-dialog {
+  display: flex;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  z-index: 1;
+  align-self: center;
+  justify-self: center;
+}
+#close-win-dialog {
+  margin: 10px 8px 30px 7px;
+  padding: 1px 8px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  height: 25px;
+}
+#close-win-dialog:hover {
+  background-color: #0056b3;
+}
+
+#win-screen {
+  font-size: 1.5em;
+  text-align: center;
+  margin: 20px 15px;
+}

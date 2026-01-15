@@ -30,6 +30,7 @@ export function startScreen() {
     const players = startNewGame(player1Name, Player2Name);
     setupInitialBoards(players[0].gameboard, players[1].gameboard);
     setupResetButton(player1Name, Player2Name);
+    renderWin("Sean");
   });
 
   body.appendChild(form);
@@ -154,7 +155,7 @@ function resetBoardContainers() {
 }
 
 export function renderWin(winnerName) {
-  const body = document.querySelector("body");
+  const dialog = document.querySelector("#win-dialog");
   const winDiv = document.createElement("div");
   winDiv.id = "win-screen";
   const winMessage = document.createElement("h2");
@@ -166,5 +167,11 @@ export function renderWin(winnerName) {
     container.classList.toggle("disabled", true);
   });
   winDiv.appendChild(winMessage);
-  body.appendChild(winDiv);
+  dialog.prepend(winDiv);
+  dialog.showModal();
+  const closeButton = document.getElementById("close-win-dialog");
+  closeButton.addEventListener("click", () => {
+    dialog.close();
+    winDiv.remove();
+  });
 }
