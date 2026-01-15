@@ -3,7 +3,6 @@ import { Ship } from "./classes/Ship.js";
 const SHIP_LENGTHS = [5, 4, 3, 3, 2];
 
 export function randomizeShips(board) {
-  board.grid.forEach((row) => row.fill(null));
   board.ships.length = 0;
 
   SHIP_LENGTHS.forEach((length) => {

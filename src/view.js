@@ -1,28 +1,20 @@
-import { startNewGame, playerShot } from "./index.js";
+import { startNewGame, playerShot, placePlayerShip } from "./index.js";
 import splash from "./images/splash.png";
 import kaboom from "./images/kaboom.png";
 
 export function startScreen() {
-  const body = document.querySelector("body");
-  const form = document.createElement("form");
-  form.id = "player-form";
-
-  const player1Label = document.createElement("label");
-  player1Label.textContent = "Player 1 Name: ";
-  const player1Input = document.createElement("input");
-  player1Input.type = "text";
-  player1Input.name = "player1";
-  player1Input.required = true;
-  player1Label.appendChild(player1Input);
-  const submitButton = document.createElement("button");
-  submitButton.type = "submit";
-  submitButton.textContent = "Start Game";
-  form.appendChild(player1Label);
-  form.classList.toggle("active");
-  form.appendChild(submitButton);
+  startBoardSetup();
+  const form = document.querySelector("#player-form");
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    const player1Name = player1Input.value || "Player 1";
+    if (e.target.classList.contains("disabled")) {
+      console.log("Form submission blocked: ships not placed");
+      return;
+    }
+    const start = document.getElementById("startScreen-container");
+    start.classList.toggle("active", false);
+    const player1Name =
+      document.getElementById("player1-name").value || "Player 1";
     const Player2Name = "Computer";
     const gameDiv = document.getElementById("game-container");
     form.classList.toggle("active");
@@ -30,9 +22,39 @@ export function startScreen() {
     const players = startNewGame(player1Name, Player2Name);
     setupInitialBoards(players[0].gameboard, players[1].gameboard);
     setupResetButton(player1Name, Player2Name);
+    setupScoreBoard(player1Name, Player2Name);
   });
+}
 
-  body.appendChild(form);
+function startBoardSetup() {
+  const setupDiv = document.getElementById("boardSetup-container");
+  const buttons = setupDiv.querySelectorAll(".boardSquare");
+  let ships = 5;
+  console.log("Adding setup board clickables");
+  buttons.forEach((button) => {
+    button.addEventListener("click", (e) => {
+      console.log("Clicked setup board");
+      const row = parseInt(e.target.getAttribute("data-row"));
+      const col = parseInt(e.target.getAttribute("data-col"));
+      if (ships === 0) return;
+      let board = placePlayerShip(row, col, "horizontal");
+      if (board) {
+        renderShips(setupDiv, board);
+        ships--;
+        console.log("Placed ship at", row, col);
+        if (ships === 0) {
+          const form = document.querySelector("#player-form");
+          form.classList.toggle("disabled", false);
+          console.log("All ships placed");
+          const setupDiv = document.getElementById("boardSetup-container");
+          setupDiv.classList.toggle("waiting", false);
+        }
+      } else {
+        console.log("Failed to place ship at", row, col);
+        alert("Invalid ship placement. Try again.");
+      }
+    });
+  });
 }
 
 function setupInitialBoards(player1Board, player2Board) {
@@ -41,6 +63,15 @@ function setupInitialBoards(player1Board, player2Board) {
   board2Container.classList.toggle("disabled");
   addClickables(board2Container, handleClick);
   renderShips(board1Container, player1Board);
+}
+
+function setupScoreBoard(name1, name2) {
+  const player1Score = document.getElementById("player1-score");
+  const player2Score = document.getElementById("player2-score");
+  player1Score.textContent = `${name1}'s Wins: 0`;
+  player2Score.textContent = `${name2}'s Wins: 0`;
+  player1Score.classList.add(name1);
+  player2Score.classList.add(name2);
 }
 
 function renderShips(boardContainer, board) {
@@ -156,6 +187,7 @@ function resetBoardContainers() {
 export function renderWin(winnerName) {
   const dialog = document.querySelector("#win-dialog");
   const winDiv = document.createElement("div");
+  updateScore(winnerName);
   winDiv.id = "win-screen";
   const winMessage = document.createElement("h2");
   winMessage.textContent = `${winnerName} Wins!`;
@@ -173,4 +205,11 @@ export function renderWin(winnerName) {
     dialog.close();
     winDiv.remove();
   });
+}
+
+function updateScore(winnerName) {
+  const playerScore = document.querySelector(`#Scoreboard .${winnerName}`);
+  let currentScore = parseInt(playerScore.textContent.split(": ")[1]);
+  currentScore += 1;
+  playerScore.textContent = `${winnerName}'s Wins: ${currentScore}`;
 }

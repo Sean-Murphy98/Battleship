@@ -5,24 +5,33 @@ import { Ship } from "./classes/Ship.js";
 import { GameModel } from "./classes/GameModel.js";
 import * as DOM from "./view.js";
 import { randomizeShips } from "./computerShipPlacer.js";
+import { placeShips } from "./playerShipPlacer.js";
+
+function createComputer(name) {
+  const gameboard = new Gameboard();
+  return new Player(name, true, gameboard);
+}
 
 function createPlayer(name, isComputer = false) {
   const gameboard = new Gameboard();
   return new Player(name, isComputer, gameboard);
 }
 
-export function startNewGame(player1Name, player2Name) {
+export function startNewGame(player1Name, player2Name, player1Coords) {
   console.log("Starting new game between", player1Name, "and", player2Name);
-  const player1 = createPlayer(player1Name, false);
-  const player2 = createPlayer(player2Name, true);
-  player1.gameboard.placeShip(new Ship(5), 0, 0, "horizontal");
-  player1.gameboard.placeShip(new Ship(4), 2, 2, "vertical");
-  player1.gameboard.placeShip(new Ship(3), 5, 5, "horizontal");
-  player1.gameboard.placeShip(new Ship(3), 7, 3, "vertical");
-  player1.gameboard.placeShip(new Ship(2), 9, 0, "horizontal");
+  dummyPlayer.Name = player1Name;
+  const player2 = createComputer(player2Name);
   randomizeShips(player2.gameboard);
-  Game.setPlayers(player1, player2);
-  return [player1, player2];
+  Game.setPlayers(dummyPlayer, player2);
+  return [dummyPlayer, player2];
+}
+
+export function placePlayerShip(row, col, direction) {
+  console.log(dummyPlayer.gameboard);
+  if (placeShips(dummyPlayer.gameboard, [row, col], direction)) {
+    return dummyPlayer.gameboard;
+  }
+  return false;
 }
 
 export function playerShot(row, col) {
@@ -73,5 +82,6 @@ function init() {
   DOM.startScreen();
   //DOM.setupResetButton(resetGame);
 }
+const dummyPlayer = createPlayer("Dummy");
 const Game = new GameModel();
 init();
