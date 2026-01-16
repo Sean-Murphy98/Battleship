@@ -19,16 +19,17 @@ function createPlayer(name, isComputer = false) {
 
 export function startNewGame(player1Name, player2Name, player1Coords) {
   console.log("Starting new game between", player1Name, "and", player2Name);
-  dummyPlayer.Name = player1Name;
+  dummyPlayer.name = player1Name;
+  console.log(dummyPlayer.name);
   const player2 = createComputer(player2Name);
   randomizeShips(player2.gameboard);
   Game.setPlayers(dummyPlayer, player2);
   return [dummyPlayer, player2];
 }
 
-export function placePlayerShip(row, col, direction) {
+export function placePlayerShip(row, col, direction, data) {
   console.log(dummyPlayer.gameboard);
-  if (placeShips(dummyPlayer.gameboard, [row, col], direction)) {
+  if (placeShips(dummyPlayer.gameboard, [row, col], direction, data)) {
     return dummyPlayer.gameboard;
   }
   return false;
@@ -54,6 +55,7 @@ function takeTurn(row, col) {
           attack[0] === attackCoords[0] && attack[1] === attackCoords[1]
       )
     );
+    console.log(`Computer attacks at (${attackCoords[0]}, ${attackCoords[1]})`);
     if (opponent.gameboard.receiveAttack(attackCoords[0], attackCoords[1])) {
       DOM.renderHit(attackCoords[0], attackCoords[1]);
     }
@@ -64,6 +66,7 @@ function takeTurn(row, col) {
     }
     Game.switchPlayer();
   } else {
+    console.log(`${player.name} attacks at (${row}, ${col})`);
     if (opponent.gameboard.receiveAttack(row, col)) {
       DOM.renderHit(row, col);
     }
@@ -76,6 +79,7 @@ function takeTurn(row, col) {
     console.log("Computer is thinking...");
     setTimeout(takeTurn, 1000);
   }
+  console.log("Rendering boards after turn");
   DOM.renderBoard(opponent.gameboard);
 }
 function init() {

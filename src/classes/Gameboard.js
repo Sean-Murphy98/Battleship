@@ -12,9 +12,11 @@ export class Gameboard {
 
   placeShip(ship, row, col, orientation) {
     if (this.isOutOfBounds(ship, row, col, orientation)) {
+      console.log("Ship placement out of bounds");
       return false;
     }
     if (this.isOverlapping(ship, row, col, orientation)) {
+      console.log("Ship placement overlaps another ship");
       return false;
     }
     this.ships.push(ship);
@@ -24,7 +26,7 @@ export class Gameboard {
       }
     } else {
       for (let i = 0; i < ship.length; i++) {
-        this.grid[row + i][col] = ship;
+        this.grid[row - i][col] = ship;
       }
     }
     return true;
@@ -41,9 +43,9 @@ export class Gameboard {
   }
   isOutOfBounds(ship, row, col, orientated) {
     if (orientated === "horizontal") {
-      return col + ship.length > 10;
+      return col + (ship.length - 1) > 9;
     } else {
-      return row + ship.length > 10;
+      return row - (ship.length - 1) < 0;
     }
   }
   isOverlapping(ship, row, col, orientation) {
@@ -55,7 +57,7 @@ export class Gameboard {
       }
     } else {
       for (let i = 0; i < ship.length; i++) {
-        if (this.grid[row + i][col] !== null) {
+        if (this.grid[row - i][col] !== null) {
           return true;
         }
       }

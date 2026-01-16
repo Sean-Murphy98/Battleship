@@ -16,12 +16,11 @@ export function startScreen() {
       return;
     }
     const start = document.getElementById("startScreen-container");
-    start.classList.toggle("active", false);
     const player1Name =
       document.getElementById("player1-name").value || "Player 1";
     const Player2Name = "Computer";
     const gameDiv = document.getElementById("game-container");
-    form.classList.toggle("active");
+    start.remove();
     gameDiv.classList.toggle("active");
     const players = startNewGame(player1Name, Player2Name);
     setupInitialBoards(players[0].gameboard, players[1].gameboard);
@@ -45,39 +44,29 @@ function startBoardSetup() {
       const row = parseInt(e.target.getAttribute("data-row"));
       const col = parseInt(e.target.getAttribute("data-col"));
       const data = e.dataTransfer.getData("text");
+      const directionMode = document.getElementById("directionMode").checked;
+      console.log("Direction mode:", directionMode ? "Vertical" : "Horizontal");
       console.log("Data transferred:", data);
       if (ships === 0) return;
-      let board = placePlayerShip(row, col, "horizontal");
+      let board = placePlayerShip(
+        row,
+        col,
+        directionMode ? "vertical" : "horizontal",
+        data
+      );
       if (board) {
         renderShips(setupDiv, board);
         ships--;
         console.log("Placed ship at", row, col);
+        const shipElement = document.getElementById(data);
+        e.target.appendChild(shipElement);
+        shipElement.draggable = false;
         if (ships === 0) {
           const form = document.querySelector("#player-form");
           form.classList.toggle("disabled", false);
           console.log("All ships placed");
-          const setupDiv = document.getElementById("boardSetup-container");
-          setupDiv.classList.toggle("waiting", false);
-        }
-      } else {
-        console.log("Failed to place ship at", row, col);
-        alert("Invalid ship placement. Try again.");
-      }
-    });
-    button.addEventListener("click", (e) => {
-      console.log("Clicked setup board");
-      const row = parseInt(e.target.getAttribute("data-row"));
-      const col = parseInt(e.target.getAttribute("data-col"));
-      if (ships === 0) return;
-      let board = placePlayerShip(row, col, "horizontal");
-      if (board) {
-        renderShips(setupDiv, board);
-        ships--;
-        console.log("Placed ship at", row, col);
-        if (ships === 0) {
-          const form = document.querySelector("#player-form");
-          form.classList.toggle("disabled", false);
-          console.log("All ships placed");
+          const div = document.getElementById("dragShips");
+          div.classList.toggle("active", false);
           const setupDiv = document.getElementById("boardSetup-container");
           setupDiv.classList.toggle("waiting", false);
         }

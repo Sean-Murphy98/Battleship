@@ -24,6 +24,20 @@ body {
   display: none;
 }
 
+#dragShips.active {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 15px;
+  visibility: visible;
+}
+
+#dragShips {
+  visibility: hidden;
+}
+
 #player-form.active {
   display: flex;
   flex-direction: column;
@@ -157,4 +171,66 @@ body {
   font-size: 1.5em;
   text-align: center;
   margin: 20px 15px;
+}
+
+/* The switch container */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+/* Hide the default checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider track */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  border-radius: 20px; /* Makes it rounded */
+  transition: 0.4s;
+}
+
+/* The slider knob */
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 19px;
+  width: 19px;
+  left: 4px;
+  bottom: 1px;
+  background-color: white;
+  border-radius: 50%; /* Makes it circular */
+  transition: 0.4s;
+}
+
+/* Styles when the checkbox is checked (toggle is "on") */
+input:checked + .slider {
+  background-color: #2196f3; /* Change background color */
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px); /* Move the knob */
+}
+
+#toggleUnit {
+  display: flex;
+  flex-direction: column;
+}
+
+.modeLabel {
+  margin-left: 1px;
+  left: 10px;
+  font-size: 12px;
 }

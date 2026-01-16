@@ -142,22 +142,30 @@
           <button data-row="0" data-col="9" class="boardSquare"></button>
         </div>
       </div>
-      <div id="dragShips">
+      <div id="dragShips" class="active">
+        <div id="dragInfo"><div id="toggleUnit">
+          
         <h3>Drag and Drop Ships to Board</h3>
+            <label class="switch">
+              <input type="checkbox" id="directionMode" value="metric" />
+              <span class="slider"></span>
+            </label>
+            <h3 class="modeLabel">Horizontal / Vertical</h3>
+          </div>
         <div id="carrier" class="draggable-ship" draggable="true">
-          Carrier (5)
+          Carrier 🚢🚢🚢🚢🚢
         </div>
         <div id="battleship" class="draggable-ship" draggable="true">
-          Battleship (4)
+          Battleship 🚢🚢🚢🚢
         </div>
-        <div id="destroyer" class="draggable-ship" draggable="true">
-          Destroyer (3)
+        <div id="cruiser" class="draggable-ship" draggable="true">
+          Cruiser 🚢🚢🚢
         </div>
         <div id="submarine" class="draggable-ship" draggable="true">
-          Submarine (3)
+          Submarine 🚢🚢🚢
         </div>
         <div id="patrolBoat" class="draggable-ship" draggable="true">
-          Patrol Boat (2)
+          Patrol Boat 🚢🚢
         </div>
       </div>
     </div>
