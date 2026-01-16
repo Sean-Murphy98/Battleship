@@ -4,6 +4,10 @@ import kaboom from "./images/kaboom.png";
 
 export function startScreen() {
   startBoardSetup();
+  const dragShips = document.querySelectorAll(".draggable-ship");
+  dragShips.forEach((ship) => {
+    ship.addEventListener("dragstart", dragstartHandler);
+  });
   const form = document.querySelector("#player-form");
   form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -32,6 +36,34 @@ function startBoardSetup() {
   let ships = 5;
   console.log("Adding setup board clickables");
   buttons.forEach((button) => {
+    button.addEventListener("dragover", (e) => {
+      e.preventDefault();
+    });
+    button.addEventListener("drop", (e) => {
+      e.preventDefault();
+      console.log("Dropped ship on setup board");
+      const row = parseInt(e.target.getAttribute("data-row"));
+      const col = parseInt(e.target.getAttribute("data-col"));
+      const data = e.dataTransfer.getData("text");
+      console.log("Data transferred:", data);
+      if (ships === 0) return;
+      let board = placePlayerShip(row, col, "horizontal");
+      if (board) {
+        renderShips(setupDiv, board);
+        ships--;
+        console.log("Placed ship at", row, col);
+        if (ships === 0) {
+          const form = document.querySelector("#player-form");
+          form.classList.toggle("disabled", false);
+          console.log("All ships placed");
+          const setupDiv = document.getElementById("boardSetup-container");
+          setupDiv.classList.toggle("waiting", false);
+        }
+      } else {
+        console.log("Failed to place ship at", row, col);
+        alert("Invalid ship placement. Try again.");
+      }
+    });
     button.addEventListener("click", (e) => {
       console.log("Clicked setup board");
       const row = parseInt(e.target.getAttribute("data-row"));
@@ -212,4 +244,8 @@ function updateScore(winnerName) {
   let currentScore = parseInt(playerScore.textContent.split(": ")[1]);
   currentScore += 1;
   playerScore.textContent = `${winnerName}'s Wins: ${currentScore}`;
+}
+
+function dragstartHandler(event) {
+  event.dataTransfer.setData("text/plain", event.target.id);
 }
